@@ -32,6 +32,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Router>
       </CartProvider>

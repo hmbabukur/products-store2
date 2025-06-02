@@ -109,9 +109,7 @@ button:hover{
   background-color: black;
 }
 @media (max-width: 600px) {
-  .navbar {
-    /* flex-direction: column; */
-  }
+  
   .login-form{
     width: 80%;
   }
