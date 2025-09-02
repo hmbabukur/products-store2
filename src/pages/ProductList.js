@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { CartContext } from '../contexts/CartContext';
+import ProductCard from '../components/ProductsCard';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -12,14 +13,9 @@ function ProductList() {
   }, []);
 
   return (
-    <div className="product-list">
+    <div className="grid lg:grid-cols-5 gap-8 py-6 px-14 md:px-10 w-full max-w-screen overflow-x-hidden">
       {products.map((product) => (
-        <div key={product.id} className="product-card">
-          <img src={product.thumbnail} alt={product.title} />
-          <h3>{product.title}</h3>
-          <p>N{product.price}</p>
-          <button onClick={() => addToCart(product)}>Add to Cart</button>
-        </div>
+        <ProductCard key={product.id} product={product} onAddToCart={addToCart}/>
       ))}
     </div>
   );
