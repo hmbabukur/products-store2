@@ -1,12 +1,30 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, ReactNode } from 'react';
 
-export const CartContext = createContext();
+export interface Product{
+  id: number;
+  name?: string;
+  price: number;
+  quantity?: number;
+  thumbnail?: string;
+  title?: string;
+}
 
-export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
-  const [checkoutCount, setCheckoutCount] = useState(0);
+interface CartContextType{
+  cartItems: Product[];
+  addToCart: (product: Product) => void;
+  removeFromCart: (id: number) => void;
+  clearCart: () => void;
+  checkoutCount: number;
+  incrementCheckoutCount: () => void;
+  resetCheckoutCount: () => void;
+}
+export const CartContext = createContext<CartContextType | undefined>(undefined);
 
-  function addToCart(product) {
+export function CartProvider({ children }: {children: ReactNode} ) {
+  const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [checkoutCount, setCheckoutCount] = useState<number>(0);
+
+  function addToCart(product: Product) {
   setCartItems(function(prev) {
     const existingItem = prev.find(function(item) {
       return item.id === product.id;
@@ -15,7 +33,7 @@ export function CartProvider({ children }) {
     if (existingItem) {
       return prev.map(function(item) {
         if (item.id === product.id) {
-          return { ...item, quantity: item.quantity + 1 };
+          return { ...item, quantity: (item.quantity || 1) + 1 };
         } else {
           return item;
         }
@@ -26,7 +44,7 @@ export function CartProvider({ children }) {
   });
 }
 
-    function removeFromCart(id) {
+    function removeFromCart(id: number) {
     setCartItems(function(prev) {
       return prev.filter((item) => item.id !== id);
     });
@@ -39,7 +57,7 @@ export function CartProvider({ children }) {
  
   function incrementCheckoutCount() {
     const totalItems = cartItems.reduce(function(sum, item) {
-      return sum + item.quantity;
+      return sum + (item.quantity || 0);
     }, 0);
 
     setCheckoutCount(function(prev) {

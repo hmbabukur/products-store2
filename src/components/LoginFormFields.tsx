@@ -1,8 +1,15 @@
-import React from 'react';
-import TextInput from '../components/TextInput';
-import PasswordInput from '../components/PasswordInput';
+import React, { type SetStateAction } from 'react';
+import TextInput from './TextInput';
+import PasswordInput from './PasswordInput';
 
-function LoginFormFields({ username, setUsername, password, setPassword }) {
+interface LoginFormFieldsProps{
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  password: string;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function LoginFormFields({ username, setUsername, password, setPassword }: LoginFormFieldsProps) {
   return (
     <div className="flex flex-col gap-4 w-full max-w-sm mb-6">
       <TextInput

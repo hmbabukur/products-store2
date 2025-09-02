@@ -4,12 +4,20 @@ import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LoginModal from './LoginModal';
 
+interface CartItem {
+  id: number;
+  title: string;
+  price: number;
+  quantity: number;
+  thumbnail: string;
+}
+
 function Cart() {
-  const { cartItems, removeFromCart, incrementCheckoutCount } = useContext(CartContext);
-  const { user } = useContext(AuthContext);
+  const { cartItems, removeFromCart, incrementCheckoutCount } = useContext(CartContext)!;
+  const { user } = useContext(AuthContext)!;
   const navigate = useNavigate();
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   function handleCheckout() {
     if (user) {
@@ -27,7 +35,7 @@ function Cart() {
   };
 
   const totalSum = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.price * (item.quantity || 1),
     0
   );
 
@@ -46,7 +54,7 @@ function Cart() {
                 <h4 className="text-xl font-semibold mb-2">{item.title}</h4>
                 <p className='text-lg font-semibold mb-2'>Price: ₦{item.price}</p>
                 <p className='text-lg font-semibold mb-2'>Quantity: {item.quantity}</p>
-                <p className='text-lg font-semibold mb-2'>Item Total: ₦{item.price * item.quantity}</p>
+                <p className='text-lg font-semibold mb-2'>Item Total: ₦{item.price * (item.quantity || 1)}</p>
                 <button onClick={() => removeFromCart(item.id)} className="mt-4 hover:bg-gray-900 bg-black text-white text-lg px-4 py-2 rounded">
                    Remove
                 </button>

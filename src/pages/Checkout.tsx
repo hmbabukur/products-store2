@@ -4,9 +4,26 @@ import { CartContext } from '../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 import LoginModal from './LoginModal';
 
+interface CartItem{
+  id: number;
+  title: string;
+  price: number;
+  quantity: number;
+}
+
+interface AuthContextType {
+  user: string | null;
+}
+
+interface CartContextType{
+  cartItems: CartItem[];
+  clearCart: () => void;
+  resetCheckoutCount: () => void;
+}
+
 function Checkout() {
-  const { user } = useContext(AuthContext);
-  const { cartItems, clearCart, resetCheckoutCount } = useContext(CartContext);
+  const { user } = useContext(AuthContext) as AuthContextType;
+  const { cartItems, clearCart, resetCheckoutCount } = useContext(CartContext) as CartContextType;
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -66,7 +83,7 @@ function Checkout() {
         </>
       )}
 
-      <LoginModal isOpen={showModal} onClose={handleModalClose} />
+      <LoginModal isOpen={showModal} onClose={handleModalClose} onLoginSuccess={handleLoginSuccess}/>
     </div>
   );
 }

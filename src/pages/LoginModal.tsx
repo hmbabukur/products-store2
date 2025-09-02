@@ -1,18 +1,24 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, FormEvent } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LoginFormFields from '../components/LoginFormFields';
 import LoginButtons from '../components/LoginButtons';
 
-function LoginModal({ isOpen, onClose, onLoginSuccess }) {
-  const { login } = useContext(AuthContext);
+interface LoginModalProps{
+  isOpen: boolean;
+  onClose: () => void;
+  onLoginSuccess: () => void;
+}
+
+function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps) {
+  const { login } = useContext(AuthContext)!;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login(username, password);
     onClose();

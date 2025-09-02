@@ -1,12 +1,30 @@
 import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useState, MouseEvent } from 'react';
 import { CartContext } from '../contexts/CartContext';
 import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+interface User{
+  id: number;
+  username: string;
+}
+
+interface CartItem{
+  id: number;
+  title: string;
+  price: number;
+  quantity: number;
+}
+
+interface CartContextType {
+  cartItems: CartItem[];
+  checkoutCount: number;
+}
+
+
 function Navbar() {
-  const { cartItems, checkoutCount } = useContext(CartContext);
-  const { user, logout } = useContext(AuthContext);
+  const { cartItems, checkoutCount } = useContext(CartContext) as CartContextType;
+  const { user, logout } = useContext(AuthContext) as {user: User | null; logout: () => void };
   const navigate = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
   
@@ -18,9 +36,9 @@ function Navbar() {
 
   function handleMenuClose() {
     setMenuOpen(false);
-  }
+  } 
 
-  function handleCheckoutClick(e) {
+  function handleCheckoutClick(e: MouseEvent<HTMLButtonElement> ) {
   e.preventDefault();
   if (!user) {
     setShowLoginModal(true);

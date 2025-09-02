@@ -1,16 +1,16 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, FormEvent } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LoginFormFields from '../components/LoginFormFields';
 import LoginButtons from '../components/LoginButtons';
 
 function LoginForm() {
-  const { login } = useContext(AuthContext);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { login } = useContext(AuthContext)!;
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login(username, password);
     navigate('/');

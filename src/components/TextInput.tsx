@@ -1,6 +1,12 @@
 import React from 'react';
 
-function TextInput({ value, setValue, placeholder, className }) {
+interface TextInputProps{
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  placeholder?: string;
+  className?: string;
+}
+function TextInput({ value, setValue, placeholder, className }: TextInputProps) {
   return (
     <input
     className={className}
